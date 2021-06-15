@@ -116,19 +116,37 @@ Next i
  
 ws.Range("P1").Value = "Ticker"
     
-        ws.Range("Q2") = "%" & WorksheetFunction.Max(Range("K2:K" & rowcount)) * 100
-        ws.Range("Q3") = "%" & WorksheetFunction.Min(Range("K2:K" & rowcount)) * 100
-        ws.Range("Q4") = WorksheetFunction.Max(Range("L2:L" & rowcount))
+        ws.Range("O2").Value = "Greatest % Increase"
+        ws.Range("O3").Value = "Greatest % Decrease"
+        ws.Range("O4").Value = "Greatest Total Volume"
+        lastrow = ws.Cells(Rows.Count, 11).End(xlUp).Row
         
-        increasenumber = WorksheetFunction.Match(WorksheetFunction.Max(ws.Range("K2:K" & rowcount)), ws.Range("K2:K" & rowcount), 0)
-        decreasenumber = WorksheetFunction.Match(WorksheetFunction.Min(ws.Range("K2:K" & rowcount)), ws.Range("K2:K" & rowcount), 0)
-        volumenumber = WorksheetFunction.Match(WorksheetFunction.Max(ws.Range("L2:L" & rowcount)), ws.Range("L2:L" & rowcount), 0)
+        For i = 2 To lastrow
         
-        ws.Range("P2") = ws.Cells(increasenumber + 1, 9)
-        ws.Range("P3") = ws.Cells(decreasenumber + 1, 9)
-        ws.Range("P4") = ws.Cells(volumenumber + 1, 9)
+        If ws.Cells(i, 11).Value > ws.Range("Q2").Value Then
+        ws.Range("Q2").Value = ws.Cells(i, 11).Value
+        ws.Range("P2").Value = ws.Cells(i, 9).Value
         
-
+        End If
+        
+        
+        If ws.Cells(i, 11).Value < ws.Range("Q3").Value Then
+        ws.Range("Q3").Value = ws.Cells(i, 11).Value
+        ws.Range("P3").Value = ws.Cells(i, 9).Value
+        
+        End If
+        
+        
+     If ws.Cells(i, 12).Value > ws.Range("Q4") Then
+     ws.Range("Q4").Value = ws.Cells(i, 12).Value
+     ws.Range("P4").Value = ws.Cells(i, 9).Value
+     End If
+     
+     ws.Range("Q2").NumberFormat = "0.00%"
+      ws.Range("Q3").NumberFormat = "0.00%"
+     
+        
+Next i
 Next ws
 
 End Sub
